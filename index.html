@@ -257,8 +257,15 @@
                 
                 <!-- Project 1: Charlie's Barbershop -->
                 <div class="reveal bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group border border-slate-100 dark:border-slate-700">
-                    <div class="aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700">
-                        <img src="charlie.png" alt="Charlie's Barbershop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="project-slider aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700" data-slider>
+                        <img src="charlie.png" alt="Charlie's Barbershop screenshot 1" class="project-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10 transition-opacity duration-700 ease-in-out">
+                        <img src="charlie2.png" alt="Charlie's Barbershop screenshot 2" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
+                        <img src="charlie3.png" alt="Charlie's Barbershop screenshot 3" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                            <button type="button" data-slide-to="0" aria-label="Go to image 1" class="h-2.5 w-2.5 rounded-full bg-white/90"></button>
+                            <button type="button" data-slide-to="1" aria-label="Go to image 2" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
+                            <button type="button" data-slide-to="2" aria-label="Go to image 3" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
+                        </div>
                     </div>
                     <div class="p-8">
                         <div class="flex items-center justify-between mb-2">
@@ -287,8 +294,15 @@
 
                 <!-- Project 2: Hoyoverse Fan Platform -->
                 <div class="reveal bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group border border-slate-100 dark:border-slate-700">
-                    <div class="aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700">
-                        <img src="genshin.png" alt="Hoyoverse Fan Platform" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="project-slider aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700" data-slider>
+                        <img src="genshin.png" alt="Hoyoverse Fan Platform screenshot 1" class="project-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10 transition-opacity duration-700 ease-in-out">
+                        <img src="genshin2.png" alt="Hoyoverse Fan Platform screenshot 2" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
+                        <img src="genshin3.png" alt="Hoyoverse Fan Platform screenshot 3" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                            <button type="button" data-slide-to="0" aria-label="Go to image 1" class="h-2.5 w-2.5 rounded-full bg-white/90"></button>
+                            <button type="button" data-slide-to="1" aria-label="Go to image 2" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
+                            <button type="button" data-slide-to="2" aria-label="Go to image 3" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
+                        </div>
                     </div>
                     <div class="p-8">
                         <h3 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">Hoyoverse Fan Platform</h3>
@@ -439,7 +453,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-4">Contact Me</h2>
                 <p class="text-slate-500">Have a project in mind or want to hire me? Send me a message.</p>
                 <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-                    <a href="mailto:duquejames657@gmail.com" class="inline-flex items-center text-lg text-primary hover:underline">
+                    <a id="contact-email-link" href="mailto:duquejames657@gmail.com" class="inline-flex items-center text-lg text-primary hover:underline">
                         <i class="fas fa-envelope mr-2"></i>
                         duquejames657@gmail.com
                     </a>
@@ -554,6 +568,43 @@
             observer.observe(el);
         });
 
+        // --- Project Image Sliders ---
+        const projectSliders = document.querySelectorAll('[data-slider]');
+
+        projectSliders.forEach((slider) => {
+            const slides = Array.from(slider.querySelectorAll('.project-slide'));
+            const dots = Array.from(slider.querySelectorAll('[data-slide-to]'));
+            let currentIndex = 0;
+
+            const renderSlider = () => {
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('opacity-100', index === currentIndex);
+                    slide.classList.toggle('z-10', index === currentIndex);
+                    slide.classList.toggle('opacity-0', index !== currentIndex);
+                    slide.classList.toggle('z-0', index !== currentIndex);
+                });
+
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('bg-white/90', index === currentIndex);
+                    dot.classList.toggle('bg-white/40', index !== currentIndex);
+                });
+            };
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    renderSlider();
+                });
+            });
+
+            renderSlider();
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                renderSlider();
+            }, 3000);
+        });
+
         // --- Contact Form (FormSubmit AJAX integration) ---
         const contactForm = document.getElementById('contact-form');
         const contactStatus = document.getElementById('contact-status');
@@ -593,6 +644,26 @@
                 } catch (error) {
                     contactStatus.textContent = 'Failed to send message. Please try again or email me directly at duquejames657@gmail.com.';
                 }
+            });
+        }
+
+        // --- Email Link Fallback (mailto -> Gmail compose) ---
+        const contactEmailLink = document.getElementById('contact-email-link');
+
+        if (contactEmailLink) {
+            contactEmailLink.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const mailtoUrl = 'mailto:duquejames657@gmail.com';
+                const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=duquejames657@gmail.com';
+
+                window.location.href = mailtoUrl;
+
+                setTimeout(() => {
+                    if (document.hasFocus()) {
+                        window.open(gmailComposeUrl, '_blank', 'noopener,noreferrer');
+                    }
+                }, 700);
             });
         }
     </script>
