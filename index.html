@@ -25,6 +25,10 @@
     <!-- AOS (Animate On Scroll) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <!-- Swiper Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- Tailwind Config -->
     <script>
@@ -255,14 +259,11 @@
                 
                 <!-- Project 1: Charlie's Barbershop -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group border border-slate-100 dark:border-slate-700" data-aos="zoom-in">
-                    <div class="project-slider aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700" data-slider>
-                        <img src="images/charlie.png" alt="Charlie's Barbershop screenshot 1" class="project-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10 transition-opacity duration-700 ease-in-out">
-                        <img src="images/charlie2.png" alt="Charlie's Barbershop screenshot 2" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
-                        <img src="images/charlie3.png" alt="Charlie's Barbershop screenshot 3" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
-                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                            <button type="button" data-slide-to="0" aria-label="Go to image 1" class="h-2.5 w-2.5 rounded-full bg-white/90"></button>
-                            <button type="button" data-slide-to="1" aria-label="Go to image 2" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
-                            <button type="button" data-slide-to="2" aria-label="Go to image 3" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
+                    <div class="swiper projectSwiper aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700 rounded-t-xl">
+                        <div class="swiper-wrapper">
+                            <img src="images/charlie.png" alt="Charlie's Barbershop screenshot 1" class="swiper-slide w-full h-full object-cover">
+                            <img src="images/charlie2.png" alt="Charlie's Barbershop screenshot 2" class="swiper-slide w-full h-full object-cover">
+                            <img src="images/charlie3.png" alt="Charlie's Barbershop screenshot 3" class="swiper-slide w-full h-full object-cover">
                         </div>
                     </div>
                     <div class="p-8">
@@ -292,14 +293,11 @@
 
                 <!-- Project 2: Hoyoverse Fan Platform -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group border border-slate-100 dark:border-slate-700" data-aos="zoom-in">
-                    <div class="project-slider aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700" data-slider>
-                        <img src="images/genshin.png" alt="Hoyoverse Fan Platform screenshot 1" class="project-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10 transition-opacity duration-700 ease-in-out">
-                        <img src="images/genshin2.png" alt="Hoyoverse Fan Platform screenshot 2" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
-                        <img src="images/genshin3.png" alt="Hoyoverse Fan Platform screenshot 3" class="project-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0 transition-opacity duration-700 ease-in-out">
-                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                            <button type="button" data-slide-to="0" aria-label="Go to image 1" class="h-2.5 w-2.5 rounded-full bg-white/90"></button>
-                            <button type="button" data-slide-to="1" aria-label="Go to image 2" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
-                            <button type="button" data-slide-to="2" aria-label="Go to image 3" class="h-2.5 w-2.5 rounded-full bg-white/40"></button>
+                    <div class="swiper projectSwiper aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-700 rounded-t-xl">
+                        <div class="swiper-wrapper">
+                            <img src="images/genshin.png" alt="Hoyoverse Fan Platform screenshot 1" class="swiper-slide w-full h-full object-cover">
+                            <img src="images/genshin2.png" alt="Hoyoverse Fan Platform screenshot 2" class="swiper-slide w-full h-full object-cover">
+                            <img src="images/genshin3.png" alt="Hoyoverse Fan Platform screenshot 3" class="swiper-slide w-full h-full object-cover">
                         </div>
                     </div>
                     <div class="p-8">
@@ -553,41 +551,16 @@
             once: true
         });
 
-        // --- Project Image Sliders ---
-        const projectSliders = document.querySelectorAll('[data-slider]');
-
-        projectSliders.forEach((slider) => {
-            const slides = Array.from(slider.querySelectorAll('.project-slide'));
-            const dots = Array.from(slider.querySelectorAll('[data-slide-to]'));
-            let currentIndex = 0;
-
-            const renderSlider = () => {
-                slides.forEach((slide, index) => {
-                    slide.classList.toggle('opacity-100', index === currentIndex);
-                    slide.classList.toggle('z-10', index === currentIndex);
-                    slide.classList.toggle('opacity-0', index !== currentIndex);
-                    slide.classList.toggle('z-0', index !== currentIndex);
-                });
-
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('bg-white/90', index === currentIndex);
-                    dot.classList.toggle('bg-white/40', index !== currentIndex);
-                });
-            };
-
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentIndex = index;
-                    renderSlider();
-                });
+        // --- Swiper Carousel Initialization ---
+        const swipers = document.querySelectorAll('.projectSwiper');
+        swipers.forEach(() => {
+            new Swiper('.projectSwiper', {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false
+                }
             });
-
-            renderSlider();
-
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % slides.length;
-                renderSlider();
-            }, 3000);
         });
 
         // --- Contact Form (FormSubmit AJAX integration) ---
